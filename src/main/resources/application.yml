@@ -1,0 +1,40 @@
+server:
+  port: 9999
+
+spring:
+  freemarker:
+    cache: false
+
+  thymeleaf:
+    cache: true
+
+  devtools:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: web/**
+  mvc:
+    view:
+      prefix: /web/
+      suffix: .jsp
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name:  com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3339/book?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+
+    ##mybatis配置
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: com.task.entity
+  configuration:
+    ##下划线转驼峰配置
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.muyan.mapper: debug #打印sql
+
+

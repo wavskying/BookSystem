@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.task.dao.BookDao">
+    <insert id="addBook">
+        insert into t_book(b_name,b_price,b_photo,b_introduction,b_authorname,b_publish,b_publish_date,t_id) values
+        (#{book.name},#{book.price},#{book.photo},#{book.introduction},#{book.authorName},#{book.publish},#{book.publishDate},#{book.sort});
+    </insert>
+
+    <select id="selectBook" resultMap="selectBookList">
+        select * from t_book where (b_name=#{book.name} or #{book.name}='') and (b_price=#{book.price}
+        or #{book.price}=0) and (t_id=#{book.sort} or #{book.sort}=0)
+        limit #{start},#{end};
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*) from t_book where (b_name=#{book.name} or #{book.name}='') and (b_price=#{book.price}
+        or #{book.price}=0) and (t_id=#{book.sort} or #{book.sort}=0);
+    </select>
+
+    <delete id="deleteBook">
+        delete from t_book where b_id = #{id};
+    </delete>
+
+    <select id="selectOneBook" resultMap="selectBookList">
+        select * from t_book where b_id=#{id};
+    </select>
+
+    <update id="updateBook">
+        update t_book
+        set b_name=#{book.name},b_price=#{book.price},b_introduction=#{book.introduction}
+        where b_id=#{book.id}
+    </update>
+
+    <select id="getCountBySort" resultType="int">
+        select count(*)
+        from t_book
+        where t_id = #{sort}
+    </select>
+
+    <select id="getBookByPublish" resultMap="selectBookList">
+        select b_publish,COUNT(b_publish) from t_book
+        GROUP BY b_publish
+        HAVING COUNT(b_publish)>180
+    </select>
+    
+    <resultMap id="selectBookList" type="com.task.entity.Book">
+        <id column="b_id" property="id" />
+        <result column="b_name" property="name" />
+        <result column="b_price" property="price" />
+        <result column="b_photo" property="photo"/>
+        <result column="b_introduction" property="introduction"/>
+        <result column="b_authorname" property="authorName"/>
+        <result column="b_publish" property="publish"/>
+        <result column="b_publish_date" property="publishDate"/>
+        <result column="t_id" property="sort"/>
+        <result column="count(b_publish)" property="countPublish"/>
+    </resultMap>
+</mapper>

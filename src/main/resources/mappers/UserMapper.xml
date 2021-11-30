@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.task.dao.UserDao">
+    <select id="selectUser" resultMap="selectUserMap">
+        select * from t_user where b_username = #{username} and b_password = #{password};
+    </select>
+
+    <select id="selectUsers" resultMap="selectUserMap">
+        select * from t_user
+        where (b_id=#{user.id} or #{user.id}='')
+        and (b_name=#{user.name} or #{user.name}='')
+        limit #{start},#{end};
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select (count(*)) from t_user
+        where (b_id=#{user.id} or #{user.id}='')
+        and (b_name=#{user.name} or #{user.name}='');
+    </select>
+
+    <insert id="addUser">
+        insert into t_user(b_id,b_name,b_sex,b_age,b_username,b_password,b_identity)
+        values(#{user.id},#{user.name},#{user.sex},#{user.age},#{user.username},#{user.password},#{user.identity});
+    </insert>
+
+    <delete id="deleteUser" >
+        delete from t_user
+        where b_id=#{id};
+    </delete>
+
+    <update id="updateUser">
+        update t_user set b_name=#{user.name},b_sex=#{user.sex},b_age=#{user.age},b_identity=#{identity}
+        where b_id=#{user.id}
+    </update>
+
+
+    <resultMap id="selectUserMap" type="com.task.entity.User">
+        <id column="b_id" property="id"/>
+        <result column="b_name" property="name"/>
+        <result column="b_sex" property="sex"/>
+        <result column="b_age" property="age"/>
+        <result column="b_username" property="username"/>
+        <result column="b_password" property="password"/>
+        <result column="b_identity" property="identity"/>
+    </resultMap>
+</mapper>

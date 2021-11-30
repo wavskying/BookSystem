@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.task.dao.AuthorDao">
+    <insert id="addAuthor">
+        insert into t_author(a_name,a_sex,a_birthday,a_birtharea,a_introduction,a_image)
+        values(#{author.name},#{author.sex},#{author.birthday},
+        #{author.birthArea},#{author.introduction},#{author.image});
+    </insert>
+
+    <select id="selectAuthor" resultMap="selectAuthorList">
+        select * from t_author
+        where a_name=#{author.name} or #{author.name}='' limit #{start},#{end};
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from t_author
+        where a_name=#{author.name} or #{author.name}=''
+    </select>
+
+    <select id="selectOneAuthor" resultMap="selectOneAuthorMap">
+        select * from t_author,t_book
+        where t_author.a_name=#{name}
+        and t_book.b_authorname=t_author.a_name;
+    </select>
+
+    <resultMap id="selectAuthorList" type="com.task.entity.Author">
+        <id column="a_id" property="id" />
+        <result column="a_name" property="name" />
+        <result column="a_sex" property="sex" />
+        <result column="a_birthday" property="birthday"/>
+        <result column="a_birtharea" property="birthArea" />
+        <result column="a_introduction" property="introduction" />
+        <result column="a_image" property="image" />
+    </resultMap>
+    
+    <resultMap id="selectOneAuthorMap" type="com.task.entity.Author">
+        <id column="a_id" property="id" />
+        <result column="a_name" property="name" />
+        <result column="a_sex" property="sex" />
+        <result column="a_birthday" property="birthday"/>
+        <result column="a_birtharea" property="birthArea" />
+        <result column="a_introduction" property="introduction" />
+        <result column="a_image" property="image" />
+        
+        <collection property="bookList" ofType="com.task.entity.Book">
+            <id column="b_id" property="id" />
+            <result column="b_name" property="name" />
+            <result column="b_photo" property="photo"/>
+        </collection>
+    </resultMap>
+
+</mapper>
