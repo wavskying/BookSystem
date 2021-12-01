@@ -1,13 +1,15 @@
 # BookSystem
 基于springboot+mybatis+layui+echarts的图书管理系统
 
-## 拉去项目
+## 拉取项目
 git clone 
 
 ## 运行
 修改application.yml文件中的数据库配置：sping:datasource下的url以及用户名密码
 
 运行mysql脚本（内附有数千条数据）
+由于文件太大，从下面的地址中取
+https://download.csdn.net/download/hbwddd/53561400
 
 ## 项目运行截图
 ![image](https://user-images.githubusercontent.com/94342720/144246023-13e3fca6-e15f-42a5-ac95-259a9b7204d0.png)
